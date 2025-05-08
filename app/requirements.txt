@@ -1,0 +1,11 @@
+Flask==2.3.3
+#gunicorn==21.2.0
+joblib
+scikit-learn
+xgboost
+pandas
+matplotlib
+imblearn
+numpy
+seaborn
+prometheus-flask-exporter

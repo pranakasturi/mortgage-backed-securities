@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mortgage Model Prediction</title>
+</head>
+<body>
+    <h2>Predict Mortgage Outcome</h2>
+    <form method="POST">
+        <label for="model">Choose Model:</label><br>
+        <select name="model">
+            <option value="logistic_regression" {% if request.form.get('model') == 'logistic_regression' %}selected{% endif %}>Logistic Regression</option>
+            <option value="xgboost" {% if request.form.get('model') == 'xgboost' %}selected{% endif %}>XGBoost Classifier</option>
+            <option value="lda" {% if request.form.get('model') == 'lda' %}selected{% endif %}>Linear Discriminant Analysis</option>
+            <option value="gradient_boosting" {% if request.form.get('model') == 'gradient_boosting' %}selected{% endif %}>Gradient Boosting Classifier</option>
+        </select><br><br>
+
+        <label>Credit Score:</label><br>
+        <input type="number" name="CreditScore" step="any" required><br><br>
+
+        <label>OCLTV:</label><br>
+        <input type="number" name="OCLTV" step="any" required><br><br>
+
+        <label>DTI:</label><br>
+        <input type="number" name="DTI" step="any" required><br><br>
+
+        <label>Original UPB:</label><br>
+        <input type="number" name="OrigUPB" step="any" required><br><br>
+
+        <label>Interest Rate:</label><br>
+        <input type="number" name="OrigInterestRate" step="any" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction is not none %}
+        <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+    {% if error %}
+        <h4 style="color:red;">{{ error }}</h4>
+    {% endif %}
+</body>
+</html>

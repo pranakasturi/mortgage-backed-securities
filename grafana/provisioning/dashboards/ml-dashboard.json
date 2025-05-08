@@ -1,0 +1,24 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "ML Model Monitoring",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Predictions Per Model",
+        "targets": [
+          {
+            "expr": "model_predictions_total",
+            "legendFormat": "{{model}}",
+            "refId": "A"
+          }
+        ],
+        "xaxis": { "show": true },
+        "yaxis": { "show": true }
+      }
+    ],
+    "schemaVersion": 16,
+    "version": 1
+  },
+  "overwrite": true
+}
