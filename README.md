@@ -1,6 +1,6 @@
 # Flask Docker App with Prometheus Metrics
 
-A simple Flask web app containerized with Docker, exposing Prometheus-compatible metrics.
+Machine Learning Flask web app containerized with Docker, exposing Prometheus-compatible metrics for Mortgage Backed Securities
 
 ## Features
 
