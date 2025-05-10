@@ -89,3 +89,70 @@ If a `docker-compose.yml` file is provided (for potential multi-container setups
 
 ```bash
 docker-compose up -d
+
+This will build and start all the services defined in the docker-compose.yml file in detached mode.
+
+Accessing the Application
+Once the Docker container is running, you can access the Flask API at http://localhost:5000.
+
+🔌 API Usage
+🔍 POST /predict
+Send a JSON payload to get predictions from all four models.
+
+Request Example:
+
+json
+Copy
+Edit
+POST /predict
+Content-Type: application/json
+
+{
+  "credit_score": 700,
+  "ocltv": 83.3,
+  "dti": 36.5,
+  "Original_upb":124000,
+  "original_interest_rate": 3.75
+}
+Response Example:
+
+json
+Copy
+Edit
+{
+  "logistic_regression": 1,
+  "xgboost": 1,
+  "gradient_boosting": 1,
+  "lda": 0
+}
+
+📊 Monitoring with Prometheus
+This app exposes a Prometheus-compatible metrics endpoint at:
+
+bash
+Copy
+Edit
+GET /metrics
+Metrics include:
+
+Request counts per endpoint
+
+Request duration histograms
+
+Model inference counts
+
+Example Prometheus Scrape Config:
+yaml
+Copy
+Edit
+scrape_configs:
+  - job_name: 'ml-mbs-app'
+    static_configs:
+      - targets: ['localhost:5000']
+Run Prometheus:
+
+bash
+Copy
+Edit
+prometheus --config.file=prometheus.yml
+You can then visualize the metrics using Prometheus or connect to Grafana for a dashboard.
