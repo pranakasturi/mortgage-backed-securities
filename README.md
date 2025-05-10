@@ -84,6 +84,12 @@ Follow these steps to set up and run the application:
     ```
     This command will run the Docker container and map the application's port 5000 to your host machine's port 5000.
 
+
+
+
+
+
+
 ### Running with Docker Compose (Optional)
 
 If a `docker-compose.yml` file is provided (for potential multi-container setups, e.g., with a separate Prometheus instance), you can use the following command from the root of the repository:
