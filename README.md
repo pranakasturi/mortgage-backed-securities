@@ -69,7 +69,7 @@ Follow these steps to set up and run the application:
 2.  **Build the Docker image:**
     Navigate to the `docker` directory and build the Docker image using the Dockerfile:
     ```bash
-    cd docker
+    cd app
     docker build -t mbs-prediction-app .
     cd ..
     ```
