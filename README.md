@@ -1,47 +1,45 @@
-# 📈 Machine Learning Flask Docker App for Mortgage-Backed Securities with Prometheus Metrics
+Markdown
 
-This repository contains a Dockerized Flask application that leverages various machine learning models (Logistic Regression, XGBoost, Gradient Boosting, and Linear Discriminant Analysis - LDA) to predict the probability of default for Mortgage-Backed Securities (MBS). The application exposes an API endpoint for making predictions and integrates Prometheus for monitoring key performance indicators.
+# Machine Learning Flask Docker App for Mortgage Backed Securities with Prometheus Metrics
 
----
+This repository contains a Dockerized Flask application that leverages various machine learning models (Logistic Regression, XGBoost, Gradient Boosting, and Linear Discriminant Analysis - LDA) to predict the probability of default for Mortgage Backed Securities (MBS). The application exposes an API endpoint for making predictions and integrates Prometheus for monitoring key performance indicators.
 
-## 📌 Overview
+## Overview
 
 The goal of this project is to provide a scalable and easily deployable solution for MBS default prediction. It incorporates:
 
-- **Multiple Machine Learning Models:** Logistic Regression, XGBoost, Gradient Boosting, and LDA.
-- **Flask API:** RESTful API for submitting MBS data and receiving predictions.
-- **Dockerization:** Containerized deployment using Docker.
-- **Prometheus Metrics:** Monitoring with Prometheus-compatible metrics.
+* **Multiple Machine Learning Models:** Implements and allows for comparison of Logistic Regression, XGBoost, Gradient Boosting, and LDA models.
+* **Flask API:** Provides a simple and intuitive RESTful API for submitting MBS data and receiving default probability predictions.
+* **Dockerization:** Packages the application and its dependencies into a Docker container for easy deployment across different environments.
+* **Prometheus Metrics:** Exposes key application metrics in the Prometheus format, enabling monitoring and alerting.
 
----
+## Repository Structure
 
-## 🗂️ Repository Structure
-<pre>
-```text
 ├── app/
-│   ├── predict_utils.py
+│   ├── init.py
 │   ├── models/
-│   │   ├── gradient_boosting.pkl
-│   │   ├── lda.pkl
-│   │   ├── logistic_regression.pkl
-│   │   └── xgboost.pkl
+│   │   ├── init.py
+│   │   ├── gradient_boosting.py
+│   │   ├── lda.py
+│   │   ├── logistic_regression.py
+│   │   └── xgboost.py
 │   ├── static/
+│   │   └── (optional static files)
 │   ├── templates/
+│   │   └── (optional HTML templates)
 │   └── main.py         # Flask application entry point
 ├── data/
-│   └── (optional sample data files)
+│   ├── (optional sample data files)
 ├── docker/
-│   └── Dockerfile
+│   └── Dockerfile      # Docker configuration
 ├── metrics/
-│   └── metrics.py
+│   └── metrics.py      # Prometheus metrics implementation
 ├── notebooks/
-│   └── (optional Jupyter notebooks)
-├── requirements.txt
-├── README.md
-└── docker-compose.yml
- ``` 
-</pre>
----
+│   └── (optional Jupyter notebooks for model development and analysis)
+├── requirements.txt    # Python dependencies
+├── README.md           # This file
+└── docker-compose.yml  # Optional Docker Compose for multi-container setup
+
 
 ## Technologies Used
 
@@ -96,105 +94,82 @@ If a `docker-compose.yml` file is provided (for potential multi-container setups
 
 ```bash
 docker-compose up -d
-```
-
 This will build and start all the services defined in the docker-compose.yml file in detached mode.
+
 Accessing the Application
 Once the Docker container is running, you can access the Flask API at http://localhost:5000.
 
-### API Endpoints
+API Endpoints
 The application exposes the following API endpoint:
 
-API Endpoints
-🔹 POST /predict
-Description: Accepts MBS feature data and returns predicted probability of default.
+/predict (POST):
+Description: Accepts JSON data representing the features of an MBS and returns the predicted probability of default.
+Request Body (JSON): The JSON payload should contain the features required by the trained machine learning models. The specific features will depend on the data used for training. Example:
+JSON
 
-Example Request Body:
-
-json
-Copy
-Edit
 {
   "feature1": 0.1,
   "feature2": 100000,
-  "feature3": 0.05
+  "feature3": 0.05,
+  "...": "..."
 }
-Example Response:
+Note: Ensure the feature names and data types in your request match the expectations of the trained models.
+Response (JSON):
+JSON
 
-json
-Copy
-Edit
 {
   "model": "logistic_regression",
   "probability_of_default": 0.1532
 }
-🔸 Note: Ensure the feature names and data types match those used in training.
+The model field indicates which model was used for the prediction (this might be configurable or a default). The probability_of_default field contains the predicted probability.
+Prometheus Metrics
+The application exposes Prometheus metrics at the /metrics endpoint. You can configure Prometheus to scrape these metrics for monitoring.
 
-📈 Prometheus Metrics
-The application exposes Prometheus metrics at:
-GET /metrics
+To access the metrics, navigate to http://localhost:5000/metrics in your browser (while the application is running). You will see output in the Prometheus exposition format.
 
-Visit:
-http://localhost:5000/metrics
+Example Metrics (may vary):
 
-Example Metrics Output:
+# HELP http_requests_total Total number of HTTP requests
+# TYPE http_requests_total counter
+http_requests_total{method="POST", endpoint="/predict", status="200"} 123
+# HELP model_prediction_latency_seconds Prediction latency in seconds
+# TYPE model_prediction_latency_seconds histogram
+model_prediction_latency_seconds_bucket{model="logistic_regression",le="0.01"} 5
+model_prediction_latency_seconds_bucket{model="logistic_regression",le="0.05"} 15
+model_prediction_latency_seconds_bucket{model="logistic_regression",le="0.1"} 30
+model_prediction_latency_seconds_bucket{model="logistic_regression",le="+Inf"} 50
+model_prediction_latency_seconds_count{model="logistic_regression"} 50
+model_prediction_latency_seconds_sum{model="logistic_regression"} 2.35
+# HELP app_uptime_seconds Application uptime in seconds
+# TYPE app_uptime_seconds counter
+app_uptime_seconds 3600
+You can configure Prometheus by adding a job that targets your application's IP address and port (e.g., localhost:5000) and scrapes the /metrics endpoint.
 
-http_requests_total{method="POST", endpoint="/predict", status="200"}
+Model Selection
+The application currently implements Logistic Regression, XGBoost, Gradient Boosting, and LDA models. The specific model used for prediction might be:
 
-model_prediction_latency_seconds_count{model="logistic_regression"}
+Configurable via an environment variable or API parameter (implementation dependent).
+Set to a default model in the application code.
+Refer to the application's code (app/main.py and app/models/) to understand how the model selection is currently implemented.
 
-app_uptime_seconds
+Training the Models
+This repository focuses on the deployment of pre-trained models. The process of training these models (data loading, preprocessing, feature engineering, model training, and saving) is typically done in separate scripts or notebooks (potentially found in the notebooks/ directory).
 
-To monitor with Prometheus, add a scrape config like:
+To use this application with your own data, you will need to:
 
-yaml
-Copy
-Edit
-scrape_configs:
-  - job_name: 'ml-mbs-app'
-    static_configs:
-      - targets: ['localhost:5000']
-🎯 Model Selection
-Currently supported models:
+Train the desired machine learning models (Logistic Regression, XGBoost, Gradient Boosting, LDA) on your MBS dataset.
+Save the trained models in a format that can be loaded by the Flask application (e.g., using pickle or model-specific saving methods).
+Update the application code (app/models/) to load your trained models and ensure the feature processing aligns with how the models were trained.
+Further Development
+Potential areas for further development include:
 
-Logistic Regression
-
-XGBoost
-
-Gradient Boosting
-
-LDA
-
-Model selection may be:
-
-Configurable via environment variable or API input
-
-Default set in app/main.py
-
-🧪 Training the Models
-This app uses pre-trained models saved in app/models/.
-
-To use your own models:
-
-Train models on your dataset.
-
-Save them using pickle or joblib.
-
-Replace files in app/models/ and align preprocessing in predict_utils.py.
-
-🧱 Further Development Ideas
-Model versioning & selection via API
-
-Input validation (e.g., with Pydantic or Marshmallow)
-
-Better error handling
-
-Authentication/authorization
-
-CI/CD integration
-
-A/B testing support
-
-Grafana integration for dashboards
-
-🤝 Contributing
+Model Persistence: Implement robust mechanisms for loading and managing different versions of trained models.
+Model Selection API: Allow users to specify which model they want to use for prediction via the API request.
+Input Data Validation: Add more comprehensive validation of the input JSON data.
+Error Handling: Implement more detailed error handling and informative responses.
+Authentication and Authorization: Secure the API endpoints.
+Integration with Monitoring Tools: Provide example configurations for integrating with other monitoring and alerting tools.
+A/B Testing: Implement the ability to A/B test different models.
+CI/CD Pipeline: Set up a continuous integration and continuous deployment pipeline for automated builds and deployments.
+Contributing
+Contributions to this project are welcome. Please feel free to submit pull requests or open issues for bug fixes, feature requests, or improvements.
