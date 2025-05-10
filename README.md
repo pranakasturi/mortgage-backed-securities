@@ -107,11 +107,11 @@ o	Request Body (JSON): The JSON payload should contain the features required by 
 ```
 JSON
 {
-  "credit_score": 700,
-  "ocltv": 83.3,
-  "dti": 36.5,
-  "originali_upb" : 250000,
-  "original_interest_rate": 3.75
+  "credit_score": 200,
+  "ocltv": 23.3,
+  "dti": 26.5,
+  "originali_upb" : 80000,
+  "original_interest_rate": 5
 }
 ```
 Note: Ensure the feature names and data types in your request match the expectations of the trained models.
