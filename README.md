@@ -36,6 +36,7 @@ The goal of this project is to provide a scalable and easily deployable solution
 ├── README.md           # This file
 └── docker-compose.yml  # Docker Compose for multi-container setup
 
+
 ## Technologies Used
 
 * **Python:** The primary programming language.
@@ -89,7 +90,6 @@ If a `docker-compose.yml` file is provided (for potential multi-container setups
 
 ```bash
 docker-compose up -d
-
 This will build and start all the services defined in the docker-compose.yml file in detached mode.
 
 Accessing the Application
