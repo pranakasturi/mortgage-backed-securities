@@ -39,6 +39,9 @@ The goal of this project is to provide a scalable and easily deployable solution
 ├── requirements.txt
 ├── README.md
 └── docker-compose.yml
+
+---
+
 🛠️ Technologies Used
 Python
 
