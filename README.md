@@ -105,23 +105,96 @@ Once the Docker container is running, you can access the Flask API at http://loc
 ### API Endpoints
 The application exposes the following API endpoint:
 
-/predict (POST):
-Description: Accepts JSON data representing the features of an MBS and returns the predicted probability of default.
-Request Body (JSON): The JSON payload should contain the features required by the trained machine learning models. The specific features will depend on the data used for training. Example:
-JSON
+API Endpoints
+🔹 POST /predict
+Description: Accepts MBS feature data and returns predicted probability of default.
 
+Example Request Body:
+
+json
+Copy
+Edit
 {
   "feature1": 0.1,
   "feature2": 100000,
-  "feature3": 0.05,
-  "...": "..."
+  "feature3": 0.05
 }
-Note: Ensure the feature names and data types in your request match the expectations of the trained models.
-Response (JSON):
-JSON
+Example Response:
 
+json
+Copy
+Edit
 {
   "model": "logistic_regression",
   "probability_of_default": 0.1532
 }
-The model field indicates which model was used for the prediction (this might be configurable or a default). The probability_of_default field contains the predicted probability.
+🔸 Note: Ensure the feature names and data types match those used in training.
+
+📈 Prometheus Metrics
+The application exposes Prometheus metrics at:
+GET /metrics
+
+Visit:
+http://localhost:5000/metrics
+
+Example Metrics Output:
+
+http_requests_total{method="POST", endpoint="/predict", status="200"}
+
+model_prediction_latency_seconds_count{model="logistic_regression"}
+
+app_uptime_seconds
+
+To monitor with Prometheus, add a scrape config like:
+
+yaml
+Copy
+Edit
+scrape_configs:
+  - job_name: 'ml-mbs-app'
+    static_configs:
+      - targets: ['localhost:5000']
+🎯 Model Selection
+Currently supported models:
+
+Logistic Regression
+
+XGBoost
+
+Gradient Boosting
+
+LDA
+
+Model selection may be:
+
+Configurable via environment variable or API input
+
+Default set in app/main.py
+
+🧪 Training the Models
+This app uses pre-trained models saved in app/models/.
+
+To use your own models:
+
+Train models on your dataset.
+
+Save them using pickle or joblib.
+
+Replace files in app/models/ and align preprocessing in predict_utils.py.
+
+🧱 Further Development Ideas
+Model versioning & selection via API
+
+Input validation (e.g., with Pydantic or Marshmallow)
+
+Better error handling
+
+Authentication/authorization
+
+CI/CD integration
+
+A/B testing support
+
+Grafana integration for dashboards
+
+🤝 Contributing
