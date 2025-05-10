@@ -98,8 +98,6 @@ If a `docker-compose.yml` file is provided (for potential multi-container setups
 docker-compose up -d
 ```
 
----
-
 This will build and start all the services defined in the docker-compose.yml file in detached mode.
 Accessing the Application
 Once the Docker container is running, you can access the Flask API at http://localhost:5000.
