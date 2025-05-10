@@ -99,3 +99,31 @@ Once the Docker container is running, you can access the Flask API at http://loc
 
 ## API Endpoints
 The application exposes the following API endpoint:
+The application exposes the following API endpoint:
+•	/predict (POST): 
+o	Description: Accepts JSON data representing the features of an MBS and returns the predicted probability of default.
+o	Request Body (JSON): The JSON payload should contain the features required by the trained machine learning models. The specific features will depend on the data used for training. Example: 
+
+```
+JSON
+{
+  "credit_score": 700,
+  "ocltv": 83.3,
+  "dti": 36.5,
+  "originali_upb" : 250000,
+  "original_interest_rate": 3.75
+}
+```
+Note: Ensure the feature names and data types in your request match the expectations of the trained models.
+o	Response (JSON): 
+```
+JSON
+{
+  "logistic_regression": 1,
+  "xgboost": 1,
+  "gradient_boosting": 1,
+  "lda": 0
+}
+```
+The model field indicates which model was used for the prediction (this might be configurable or a default). The probability_of_default field contains the predicted probability.
+
