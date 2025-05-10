@@ -101,7 +101,6 @@ docker-compose up -d
 ---
 
 This will build and start all the services defined in the docker-compose.yml file in detached mode.
-
 Accessing the Application
 Once the Docker container is running, you can access the Flask API at http://localhost:5000.
 
@@ -114,18 +113,21 @@ Request Body (JSON): The JSON payload should contain the features required by th
 JSON
 
 {
-  "feature1": 0.1,
-  "feature2": 100000,
-  "feature3": 0.05,
-  "...": "..."
+  "credit_score": 700,
+  "ocltv": 83.3,
+  "dti": 36.5,
+  "originali_upb" : 250000,
+  "original_interest_rate": 3.75
 }
 Note: Ensure the feature names and data types in your request match the expectations of the trained models.
 Response (JSON):
 JSON
 
 {
-  "model": "logistic_regression",
-  "probability_of_default": 0.1532
+  "logistic_regression": 1,
+  "xgboost": 1,
+  "gradient_boosting": 1,
+  "lda": 0
 }
 The model field indicates which model was used for the prediction (this might be configurable or a default). The probability_of_default field contains the predicted probability.
 Prometheus Metrics
