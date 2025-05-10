@@ -13,7 +13,7 @@ The goal of this project is to provide a scalable and easily deployable solution
 
 ## Repository Structure
 <pre>
-```text
+text
 ├── app/
 │   ├── predict_utils.py
 │   ├── models/
@@ -35,7 +35,67 @@ The goal of this project is to provide a scalable and easily deployable solution
 ├── requirements.txt
 ├── README.md
 └── docker-compose.yml
- ``` 
 </pre>
 ---
+## Technologies Used
 
+* **Python:** The primary programming language.
+* **Flask:** A micro web framework for building the API.
+* **Scikit-learn:** A comprehensive library for machine learning algorithms (Logistic Regression, Gradient Boosting, LDA).
+* **XGBoost:** A gradient boosting library known for its performance and scalability.
+* **Pandas:** A powerful library for data manipulation and analysis.
+* **NumPy:** A fundamental package for numerical computation.
+* **Docker:** A platform for containerizing applications.
+* **Prometheus:** An open-source system monitoring and alerting toolkit.
+
+## Getting Started
+
+Follow these steps to set up and run the application:
+
+### Prerequisites
+
+* **Docker:** Ensure you have Docker installed on your system. You can find installation instructions for your operating system on the official Docker website: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
+* **Docker Compose (Optional):** If you intend to use the `docker-compose.yml` file, ensure you have Docker Compose installed: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
+* **Python 3.x:** While the application will run inside a Docker container, having Python installed can be helpful for local development or inspection.
+
+### Installation and Running with Docker
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository_url>
+    cd machine-learning-flask-docker-mbs
+    ```
+
+2.  **Build the Docker image:**
+    Navigate to the `docker` directory and build the Docker image using the Dockerfile:
+    ```bash
+    cd docker
+    docker build -t mbs-prediction-app .
+    cd ..
+    ```
+    Alternatively, if you are at the root of the repository, you can run:
+    ```bash
+    docker build -f docker/Dockerfile -t mbs-prediction-app .
+    ```
+
+3.  **Run the Docker container:**
+    ```bash
+    docker run -p 5000:5000 mbs-prediction-app
+    ```
+    This command will run the Docker container and map the application's port 5000 to your host machine's port 5000.
+
+### Running with Docker Compose (Optional)
+
+If a `docker-compose.yml` file is provided (for potential multi-container setups, e.g., with a separate Prometheus instance), you can use the following command from the root of the repository:
+
+```bash
+docker-compose up -d
+```
+
+This will build and start all the services defined in the docker-compose.yml file in detached mode.
+
+#### Accessing the Application
+Once the Docker container is running, you can access the Flask API at http://localhost:5000.
+
+## API Endpoints
+The application exposes the following API endpoint:
