@@ -95,7 +95,7 @@ This will build and start all the services defined in the docker-compose.yml fil
 Accessing the Application
 Once the Docker container is running, you can access the Flask API at http://localhost:5000.
 
-🔌 API Usage
+### API Usage
 🔍 POST /predict
 Send a JSON payload to get predictions from all four models.
 
@@ -126,7 +126,7 @@ Edit
   "lda": 0
 }
 
-📊 Monitoring with Prometheus
+### Monitoring with Prometheus
 This app exposes a Prometheus-compatible metrics endpoint at:
 
 bash
