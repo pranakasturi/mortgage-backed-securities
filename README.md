@@ -30,8 +30,6 @@ text
 │   └── Dockerfile
 ├── metrics/
 │   └── metrics.py
-├── notebooks/
-│   └── (optional Jupyter notebooks)
 ├── requirements.txt
 ├── README.md
 └── docker-compose.yml
